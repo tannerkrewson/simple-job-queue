@@ -3,7 +3,11 @@ exports.addJob = function(con, url, cb) {
 }
 
 exports.finishJob = function(con, id, status, html, cb) {
-	con.query("UPDATE jobs SET status = " + status + ", result = '" + escape(html) + "' WHERE id = " + id, cb);
+	if (status > 0) {
+		con.query("UPDATE jobs SET status = " + status + ", result = '" + escape(html) + "' WHERE id = " + id, cb);
+	} else {
+		con.query("UPDATE jobs SET status = " + status + " WHERE id = " + id, cb);
+	}
 }
 
 exports.getJobById = function(con, id, cb) {
