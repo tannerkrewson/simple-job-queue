@@ -8,26 +8,44 @@ var app = require('../app');
 var debug = require('debug')('simple-job-queue:server');
 var http = require('http');
 
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
+
 /**
- * Get port from environment and store in Express.
- */
+* Get port from environment and store in Express.
+*/
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
+if (cluster.isMaster) {
+    console.log(`Master ${process.pid} is running`);
 
-var server = http.createServer(app);
+    // Fork workers.
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`worker ${worker.process.pid} died`);
+    });
+} else {
+    /**
+    * Create HTTP server.
+    */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+    var server = http.createServer(app);
+
+    /**
+    * Listen on provided port, on all network interfaces.
+    */
+
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+
+    console.log(`Worker ${process.pid} started`);
+}
 
 /**
  * Normalize a port into a number, string, or false.
