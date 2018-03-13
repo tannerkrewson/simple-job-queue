@@ -53,12 +53,12 @@ results.
 	* `1`: Job was successful, results present in request
 	* `-1`: Job failed
 
-* **URL:** `/job/:id`
+* **URL:** `/job`
 
 * **Method:** `GET`
 
 * **URL Params**
-	* `id`: id of a job
+	* `?id=[integer]`: id of a job
 
 * **Success Response:**
 	* `200 OK`
