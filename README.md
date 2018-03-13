@@ -29,48 +29,40 @@ Go to `localhost:3000` to use an HTML interface to interact with the API.
 ### Queue new job
 Given a URL, creates a new job to fetch its content. Returns the id of the job.
 
-* **URL**
-`/job`
+* **URL:** `/job`
 
-* **Method:**
-`POST`
+* **Method:** `POST`
 
 * **Data Params**
-`url`: string with a HTTP/HTTPS URL
+	* `url`: string with a HTTP/HTTPS URL
 
 * **Success Response:**
-
-* **Code:** 201 Created<br />
-  **Content:** `{"id":13,"url":"http://google.com/"}`
+	* `201 Created`
+		* **Content:** `{"id":13,"url":"http://google.com/"}`
 
 * **Error Response:**
-
-* **Code:** `400 Bad Request`: Bad URL
-* **Code:** `500 Internal Server Error`: Failed to add to database
+	* `400 Bad Request`: Bad URL
+	* `500 Internal Server Error`: Failed to add to database
 
 ### Check job status
 Given a valid job id, returns the status, and if the job was successful, its
 results.
 
 * **Job Status Codes**
-* `0`: Job not completed, still in queue
-* `1`: Job was successful, results present in request
-* `-1`: Job failed
+	* `0`: Job not completed, still in queue
+	* `1`: Job was successful, results present in request
+	* `-1`: Job failed
 
-* **URL**
-`/job/:id`
+* **URL:** `/job/:id`
 
-* **Method:**
-`GET`
+* **Method:** `GET`
 
 * **URL Params**
-`id`: id of a job
+	* `id`: id of a job
 
 * **Success Response:**
-
-* **Code:** 200 OK<br />
-  **Content:** `{"id":13,"status":1,"url":"http://google.com/","result":"<HTML>...</HTML>"}`
+	* `200 OK`
+		* **Content:** `{"id":13,"status":1,"url":"http://google.com/","result":"<HTML>...</HTML>"}`
 
 * **Error Response:**
-
-* **Code:** `404 Not Found`: Invalid job id
+	* `404 Not Found`: Invalid job id
