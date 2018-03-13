@@ -66,3 +66,18 @@ results.
 
 * **Error Response:**
 	* `404 Not Found`: Invalid job id
+
+## Implementation
+An [async](https://github.com/caolan/async) queue is used in
+`/controllers/queue.js`. Not only does it queue up fetches, but it also queues
+any interaction with the database.
+
+If this project were to be developed further, here are a few things I would
+want to add:
+* Abstract database credentials into a config file or NODE_ENV.
+* Secure from MySQL injections
+* More informative job status codes
+* Store the queue in the database itself in case the server crashes
+* Store job result in a separate table
+* Add tests for internal functions, as well as the external API itself
+* Use a different kind of id for jobs
