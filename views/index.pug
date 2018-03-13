@@ -3,9 +3,16 @@ extends layout
 block content
     h1= title
     p By #{author}
+    h3 Create new job
     form(action='/job', method='post')
         | URL to fetch: 
         br
         input(type='text', name='url')
+        input(type='submit', value='Submit')
+    br
+    h3 Check job status
+    form(action='/job', method='get')
+        | Job id: 
         br
+        input(type='number', name='id')
         input(type='submit', value='Submit')

@@ -5,7 +5,7 @@ const { URL } = require('url');
 var JobQueue = require('../controllers/queue');
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Simple Job Queue', author: 'Tanner Krewson' });
+    res.render('index', { title: 'Simple Job Queue', author: 'Tanner Krewson' });
 });
 
 router.post('/job', function(req, res, next) {
@@ -30,6 +30,15 @@ router.post('/job', function(req, res, next) {
         res.status(400).send('Not a valid url: ' + req.body.url);
     }
 });
+
+router.get('/job', function(req, res, next) {
+    JobQueue.getJobById(req.query.id).then(function (args) {
+        res.status(200).json(args);
+    }).catch(function () {
+        res.sendStatus(404);
+    });
+});
+
 
 
 
