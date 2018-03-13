@@ -14,11 +14,11 @@ var pool = mysql.createPool({
 // job queue
 var queue = async.queue(function (task, cb) {
 	if (task.name === 'new-job') {
-		Jobs.addJob(pool, cb);
+		Jobs.addJob(pool, task.url, cb);
 	} else if (task.name === 'process-job') {
 		FetchURL.fetchURL(task.url, cb);
 	} else if (task.name === 'finish-job') {
-		Jobs.finishJob(pool, task.id, task.html, cb);
+		Jobs.finishJob(pool, task.id, task.status, task.html, cb);
 	} else if (task.name === "get-job") {
 		Jobs.getJobById(pool, task.id, cb);
 	}
@@ -39,7 +39,8 @@ exports.addJob = function(url) {
 function addJob (args) {
 	return new Promise(function(resolve, reject) {
 		queue.push({
-			name: 'new-job'
+			name: 'new-job',
+			url: args.url
 		}, function (err, result) {
 			if (!err)
 				resolve({
@@ -58,25 +59,32 @@ function processJob (args) {
 			name: 'process-job',
 			id: args.id,
 			url: args.url
-		}, function (err, result) {
-			if (!err)
-				resolve({
-					id: args.id,
-					html: result
-				})
-			else
-				reject(err);
+		}, function (err, html) {
+			var res = {
+				id: args.id
+			};
+			if (!err) {
+				res.status = 1;
+				res.html = html;
+			} else {
+				res.status = -1;
+			}
+			resolve(res);
 		});
 	});
 }
 
 function finishJob (args) {
 	return new Promise(function(resolve, reject) {
-		queue.push({
+		var task = {
 			name: 'finish-job',
 			id: args.id,
-			html: args.html
-		}, function (err, result) {
+			status: args.status
+		};
+		if (args.status > 0) {
+			task.html = args.html;
+		}
+		queue.push(task, function (err, result) {
 			if (!err)
 				resolve(result)
 			else
