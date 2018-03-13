@@ -19,8 +19,8 @@ router.post('/job', function(req, res, next) {
     try {
         theURL = new URL(theURL);
 
-        JobQueue.addJob(theURL).then(function () {
-            res.sendStatus(201);
+        JobQueue.addJob(theURL).then(function (args) {
+            res.status(201).location('/job/' + args.id).json(args);
         }).catch(function () {
             res.sendStatus(500);
         });
