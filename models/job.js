@@ -9,5 +9,11 @@ exports.finishJob = function(con, id, html, cb) {
 }
 
 exports.getJobById = function(con, id, cb) {
-	con.query("SELECT * FROM jobs WHERE id = " + id, cb);
+	con.query("SELECT * FROM jobs WHERE id = " + id, function (err, result) {
+		if (result.length > 0) {
+			cb(false, result[0]);
+		} else {
+			cb(true);
+		}
+	});
 }
