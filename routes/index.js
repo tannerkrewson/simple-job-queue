@@ -20,9 +20,9 @@ router.post('/job', function(req, res, next) {
         theURL = new URL(theURL);
 
         JobQueue.addJob(theURL).then(function () {
-            res.send('done');
+            res.sendStatus(201);
         }).catch(function () {
-            res.send('fail');
+            res.sendStatus(500);
         });
 
     } catch (e) {
