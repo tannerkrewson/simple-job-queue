@@ -19,7 +19,7 @@ router.post('/job', function(req, res, next) {
     try {
         theURL = new URL(theURL);
 
-        JobQueue.addJob(theURL.href).then(function () {
+        JobQueue.addJob(theURL).then(function () {
             res.send('done');
         }).catch(function () {
             res.send('fail');

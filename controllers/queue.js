@@ -39,8 +39,7 @@ exports.addJob = function(url) {
 function addJob (args) {
 	return new Promise(function(resolve, reject) {
 		queue.push({
-			name: 'new-job',
-			url: args.url
+			name: 'new-job'
 		}, function (err, result) {
 			if (!err)
 				resolve({
@@ -60,7 +59,6 @@ function processJob (args) {
 			id: args.id,
 			url: args.url
 		}, function (err, result) {
-			console.log(result);
 			if (!err)
 				resolve({
 					id: args.id,
