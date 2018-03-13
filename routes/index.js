@@ -27,7 +27,7 @@ router.post('/job', function(req, res, next) {
 
     } catch (e) {
         console.log(e);
-        res.status(400).send('Not a valid url: ' + req.body.url);
+        res.sendStatus(400);
     }
 });
 

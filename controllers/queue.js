@@ -5,10 +5,10 @@ var FetchURL = require('../controllers/fetch-url');
 // database connection
 var mysql = require("mysql");
 var pool = mysql.createPool({
-		host     : 'localhost',
-		user     : 'root',
-		password : 'password',
-		database : 'simple-job-queue'
+	host     : 'localhost',
+	user     : 'root',
+	password : 'password',
+	database : 'simple-job-queue'
 });
 
 // job queue
