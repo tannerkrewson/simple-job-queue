@@ -11,6 +11,7 @@ password : 'password'
 2. Run the following commands to prep the database:
 ```
 CREATE DATABASE `simple-job-queue`;
+USE `simple-job-queue`;
 CREATE TABLE `jobs` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(4) DEFAULT NULL,
@@ -81,3 +82,4 @@ want to add:
 * Store job result in a separate table
 * Add tests for internal functions, as well as the external API itself
 * Use a different kind of id for jobs
+* Endpoint for getting multiple or all jobs
